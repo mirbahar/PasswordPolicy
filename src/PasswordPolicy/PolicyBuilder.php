@@ -132,7 +132,7 @@ class PolicyBuilder
 
             if (!$rule->test($password))
             {
-                 //return false;
+                 return false;
             }
         }
 
