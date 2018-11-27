@@ -3,36 +3,22 @@
 namespace PasswordPolicy\Rules;
 
 use PasswordPolicy\Rule;
-use PasswordPolicy\User;
 
 class PasswordHistory implements Rule {
 
-    protected $currentPassword;
-    protected $passwordHistory;
+    protected $notIn = [];
 
-    protected $user;
 
-    public function __construct(User $user)
+    public function notIn($notIn = [] )
     {
-        $this->passwordHistory = $user;
-    }
-
-    public function currentPassword($currentPassword)
-    {
-        $this->currentPassword = $currentPassword ;
-        return $this;
-    }
-    public function passwordHistory($passwordHistory)
-    {
-        $this->passwordHistory = $passwordHistory ;
+        $this->notIn = $notIn;
         return $this;
     }
 
 
     public function test($password)
     {
-        if ( in_array($this->currentPassword, $this->passwordHistory->getPasswordHistory()) ){
-
+        if ( in_array($password, $this->notIn) ){
             return false;
         }
 

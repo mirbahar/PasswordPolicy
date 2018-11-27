@@ -110,6 +110,15 @@ class PolicyBuilder
         $this->policy->addRule((new BlackList)->blackList($password));
         return $this;
     }
+    /**
+     * @param $password
+     * @return mixed
+     */
+    public function notIn($password)
+    {
+        $this->policy->addRule((new PasswordHistory())->notIn($password));
+        return $this;
+    }
 
     public function getPolicy()
     {
@@ -119,10 +128,9 @@ class PolicyBuilder
     public function checkPassword($password)
     {
         foreach ($this->policy->rules() as $rule) {
-
             if (!$rule->test($password)) {
-
-                 return false;
+                echo "ok";
+//                 return false;
             }
         }
         return true;
@@ -130,12 +138,13 @@ class PolicyBuilder
 }
 
 $builder = new PolicyBuilder(new Policy());
-$builder->minDigit(2)
+$builder->minDigit(1)
         ->minLength(2)
         ->maxLength(8)
         ->specialCharacter(1)
         ->upperCase(2)
         ->lowerCase(2)
-        ->blackList(['RRdd11!', 'RRdd11!d']);
+        ->blackList(['RRdd11!', 'RRdd11!d'])
+        ->notIn(['1AAaa!', 'dddd']);  // user previous password history array e.g ['1AAaa!', 'dddd']
 
-$builder->checkPassword('1');
+$builder->checkPassword('1AAaa!');
