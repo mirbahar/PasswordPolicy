@@ -6,22 +6,22 @@ use PasswordPolicy\Rule;
 
 class PasswordHistory implements Rule {
 
-    protected $notIn = [];
+    protected $notIn;
 
-
-    public function notIn($notIn = [] )
+    public function notIn($password)
     {
-        $this->notIn = $notIn;
+        $this->notIn = $password->getPasswordHistory();
         return $this;
     }
 
-
     public function test($password)
     {
-        if ( in_array($password, $this->notIn) ){
+        if ( in_array($password, $this->notIn) )
+        {
             return false;
         }
 
         return true;
     }
+
 }

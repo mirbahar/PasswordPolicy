@@ -10,6 +10,7 @@ use PasswordPolicy\Rules\Digit;
 use PasswordPolicy\Rules\Length;
 use PasswordPolicy\Rules\PasswordHistory;
 use PasswordPolicy\Rules\SpecialCharacter;
+use PasswordPolicy\User;
 
 class PolicyBuilder
 {
@@ -128,14 +129,18 @@ class PolicyBuilder
     public function checkPassword($password)
     {
         foreach ($this->policy->rules() as $rule) {
-            if (!$rule->test($password)) {
-                echo "ok";
-//                 return false;
+
+            if (!$rule->test($password))
+            {
+                 //return false;
             }
         }
+
         return true;
     }
 }
+$user = new User();
+$user->setPasswordHistory(['1AAaa!', 'dddd']);
 
 $builder = new PolicyBuilder(new Policy());
 $builder->minDigit(1)
@@ -145,6 +150,6 @@ $builder->minDigit(1)
         ->upperCase(2)
         ->lowerCase(2)
         ->blackList(['RRdd11!', 'RRdd11!d'])
-        ->notIn(['1AAaa!', 'dddd']);  // user previous password history array e.g ['1AAaa!', 'dddd']
+        ->notIn($user);  // user previous password history array e.g ['1AAaa!', 'dddd']
 
 $builder->checkPassword('1AAaa!');
