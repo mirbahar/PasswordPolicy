@@ -1,0 +1,6 @@
+# Composer
+vendor/*
+
+# IDE
+.idea
+.nbproject

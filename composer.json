@@ -1,0 +1,12 @@
+{
+    "name": "mirbahar/password-policy",
+    "description": "password policy library",
+    "autoload": {
+        "psr-4": {
+            "PasswordPolicy\\": "src/PasswordPolicy/"
+        }
+    },
+    "require": {
+        "php": ">=5.5"
+    }
+}
